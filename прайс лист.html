@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title> PRICE LIST NEON SHOPE</title>
+		<meta charset="UTF-8">
+	<body>
+	<header>
+		<h1 align='center'>PRICE</h1>
+	</header>
+		<!-- кнопка на аватарки -->
+		<button
+		style=
+		'background-color: red; font-size:28px; color:white'
+		onclick="openPriceListAvatar()">avatars
+		</button>
+		<!-- код на javascript щоб відкривати сайт
+			на пк (клас інформатики) або зразу на флешці:
+			в класі- зверху 0 знизу 1
+			в дома- зверху 1 знизу 0-->
+		<script>
+    function openPriceListAvatar() {
+      const paths = [
+        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/аватарки.html",
+        "file:///D:/інформатика/Заболотний Назарій/аватарки.html"
+
+      ];
+		window.location.href = paths[1];
+		setTimeout(() => {
+    window.location.href = paths[0];
+  }, 2000);
+}
+  </script>
+		<!-- кнопка на банери -->
+		<button onclick="openPriceListbanner()">banner</button>
+		<!-- код на javascript щоб відкривати сайт
+			на пк (клас інформатики) або зразу на флешці:
+			в класі- зверху 0 знизу 1
+			в дома- зверху 1 знизу 0-->
+		<script>
+    function openPriceListbanner() {
+      const paths = [
+        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/банери.html",
+        "file:///D:/інформатика/Заболотний Назарій/банери.html"
+
+      ];
+		window.location.href = paths[1];
+		setTimeout(() => {
+    window.location.href = paths[0];
+  }, 2000);
+}
+  </script>
+</html>

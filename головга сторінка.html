@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> NEON SHOPE</title>
+		<meta charset="UTF-8">
+		<!-- код javascript (для нормального відео на фоні) -->
+		<style>
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+      text-align: center;
+      margin-top: 20%;
+    }
+		</style>
+		<!-- код на css щоб зробити фон для опису сторінки (нижче) -->
+		<style>
+    .note-box {
+	width: 800px;
+	height: 80px;
+      background-color: rgba(255, 0, 0, 0.1); /* прозоро червоний колір */
+
+      padding: 20px;
+      border-radius: 10px; /* заокругленя кутів */
+      display: block;		/* розташовує по центру осі x(горизонталі) */
+	  margin: 0 auto;
+      text-align: center;
+    }
+
+    .note-box h3 {
+      color: white;
+      margin: 10px 0;
+    }
+  </style>
+<!-- Кнопка вмк/увк музики -->
+<button id="music-btn" onclick="toggleMusic()">▶ Play Music</button>
+
+<!-- Аудіо приховане -->
+<audio id="bg-music" loop>
+  <source src="музика на фон.mp3" type="audio/mpeg">
+</audio>
+<!-- код на javascript щоб міняти текст кнопки -->
+<script>
+  function toggleMusic() {
+    const audio = document.getElementById('bg-music');
+    const btn = document.getElementById('music-btn');
+    if (audio.paused) {
+      audio.play();
+      btn.textContent = "⏸ Pause Music"; // змінюємо текст кнопки
+    } else {
+      audio.pause();
+      btn.textContent = "▶ Play Music";
+    }
+  }
+</script>
+<!--  код на css розташовує кнопку музики -->
+<style>
+  /* стилізація кнопки зліва */
+  #music-btn {
+    position: fixed;   /* фіксуємо на екрані */
+    top: 20px;         /* відступ зверху */
+    left: 20px;        /* тепер зліва */
+    padding: 10px 15px;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #music-btn:hover {
+    background-color: darkred;
+  }
+</style>
+	</head>
+	<body>
+		
+		<!-- код щоб вставити відео на фон -->
+		<div class="video-background">
+			<video autoplay muted loop>
+				<source src="відео на фон.mp4" type="video/mp4">
+			</video>
+		</div>
+		<header>
+			<!-- заголовок та опис сторінки -->
+			<h1 style='color: blue' align='center'>PRICE LIST</h1>
+			<h2 style='color: green' align='center'>INFORMATION</h2>
+				<div class="note-box" align="center">
+			<h3>NEON SHOPE is a professional digital design space for creative projects.</h3>
+			<h3>We specialize in creating edits, avatars, previews, banners and intros combining style, modern trends and quality of execution.</h3>
+				</div>
+
+			<!-- кнопка на прйс лист -->
+			<button onclick="openPriceList()">check price list</button>
+			<!-- код на javascript щоб відкривати сайт
+			на пк (клас інформатики) або зразу на флешці:
+			в класі- зверху 0 знизу 1
+			в дома- зверху 1 знизу 0-->
+			<script>
+    function openPriceList() {
+      const paths = [
+        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/прайс лист.html",
+        "file:///D:/інформатика/Заболотний Назарій/прайс лист.html"
+
+      ];
+		window.location.href = paths[1];
+		setTimeout(() => {
+    window.location.href = paths[0];
+  }, 2000);
+}
+  </script>
+
+		</header>
+	</body>
+</html>

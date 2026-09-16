@@ -1,33 +1,391 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>PRICE LIST NEON SHOPE</title>
-  <meta charset="UTF-8">
-</head>
-<body>
-  <header>
-    <h1 align="center">PRICE</h1>
-  </header>
+			<head>
+	<title> PRICE LIST NEON SHOPE</title>
+		<meta charset="UTF-8">
+		  </head>
+	<body>
+	<header>
+		<div class="note-box" align="center">
+			<h1 align='center'>PRICE </h1>
+		</div>
+	<!-- код на css щоб зробити фон для текст(текст зверху) -->
+<style>
+   .note-box {
+    background-color: rgba(255, 0, 0, 0.3); /* напівпрозорий червоний фон */
+    padding: 20px 40px;                     /* відступи навколо тексту */
+    border-radius: 10px;                    /* заокруглені кути */
+    text-align: center;                     /* центрування тексту */
+    width: fit-content;                     /* ширина під текст */
+    margin: 30px auto 0 auto;               /* зверху відступ 30px, по центру горизонталі */
+  }
 
-  <!-- кнопка на аватарки -->
-  <button
-    style="background-color: red; font-size:28px; color:white"
-    onclick="openPriceListAvatar()">
-    avatars
-  </button>
+  .note-box h1 {
+    color: white;                           /* колір тексту */
+    margin: 0;                              /* без зайвих відступів */
+    font-size: 32px;                        /* розмір шрифту */
+  }
+</style>
 
-  <!-- кнопка на банери -->
-  <button onclick="openPriceListBanner()">banner</button>
 
+<!-- частинки які летять до курсора  -->
+ <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+  <canvas id="canvas"></canvas>
   <script>
-    function openPriceListAvatar() {
-      window.location.href = "avatarcki.html"; 
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+
+    // оновлення позиції курсора (точно по canvas)
+    canvas.addEventListener("mousemove", e => {
+      mouse.x = e.offsetX;
+      mouse.y = e.offsetY;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = 2;
+        this.baseSize = this.size;
+      }
+      update() {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        let speed = Math.min(5, 100 / dist);
+
+        this.x += dx / dist * speed;
+        this.y += dy / dist * speed;
+
+        // якщо частинка дуже близько до курсора — зникає
+        if (dist < this.size + 2) {
+          this.size -= 0.3;
+          if (this.size <= 0) {
+            this.size = 0;
+          }
+        }
+      }
+      draw() {
+        if (this.size > 0) {
+          // градієнт для світіння
+          let gradient = ctx.createRadialGradient(
+            this.x, this.y, 0,
+            this.x, this.y, this.size * 3
+          );
+          gradient.addColorStop(0, "rgba(255,255,255,1)");   // білий центр
+          gradient.addColorStop(0.4, "rgba(255,100,150,0.8)"); // рожево-червоний
+          gradient.addColorStop(1, "rgba(150,0,0,0.2)");     // темно-червоний край
+
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
     }
 
-    function openPriceListBanner() {
-      window.location.href = "baneri.html"; 
+    function initParticles(num) {
+      for (let i = 0; i < num; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.size <= 0) {
+          particles.splice(i, 1);
+          particles.push(new Particle()); // додаємо нову
+        }
+      });
+      requestAnimationFrame(animate);
+    }
+
+    function isMobile() {
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) 
+             || navigator.maxTouchPoints > 1;
+    }
+
+    if (!isMobile()) {
+      initParticles(100); // кількість частиць на екрані
+      animate();
     }
   </script>
-</body>
-</html>
 
+
+
+
+
+	</header>
+	
+	
+	<!-- код щоб вставити відео на фон -->
+		<div class="video-background">
+			<video autoplay muted loop>
+				<source src="відео на фон 2.mp4" type="video/mp4">
+			</video>
+		</div>
+	<!-- код javascript (для нормального відео на фоні) -->
+		<style>
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+      text-align: center;
+      margin-top: 20%;
+    }
+		</style>
+		
+		
+<!-- Кнопка вмик/вимк музики -->
+<button id="music-btn" onclick="toggleMusic()">▶ Play Music</button>
+
+<!-- Кнопки регулювання гучності -->
+<button id="vol-up" onclick="changeVolume(0.1)">+</button>
+<button id="vol-down" onclick="changeVolume(-0.1)">−</button>
+
+<!-- Аудіо приховане -->
+<audio id="bg-music" loop>
+  <source src="музика на фон 2.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  function toggleMusic() {
+    const audio = document.getElementById('bg-music');
+    const btn = document.getElementById('music-btn');
+    if (audio.paused) {
+      audio.play();
+      btn.textContent = "⏸ Pause Music";
+    } else {
+      audio.pause();
+      btn.textContent = "▶ Play Music";
+    }
+  }
+
+  function changeVolume(delta) {
+    const audio = document.getElementById('bg-music');
+    let newVolume = audio.volume + delta;
+    if (newVolume > 1) newVolume = 1;   // максимум 100%
+    if (newVolume < 0) newVolume = 0;   // мінімум 0%
+    audio.volume = newVolume;
+  }
+</script>
+
+<style>
+  /* стилізація кнопки музики */
+  #music-btn {
+    position: fixed;
+    top: 12px;
+    left: 120px; /* розташування (вкл/вимк) */
+    padding: 10px 15px;
+    background-color: crimson; /* кнопка вкл/вимк */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #music-btn:hover {
+    background-color: darkred;
+  }
+
+  /* стилізація кнопок гучності */
+  #vol-up, #vol-down {
+    position: fixed;
+    top: 12px;
+    padding: 10px 15px;
+    background-color: crimson; /* колір кнопко +- */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+
+  #vol-up {
+    left: 240px; /* розташування (збільшити гучність) */
+  }
+
+  #vol-down {
+    left: 280px; /* розташування (зменшити гучність) */
+  }
+
+  #vol-up:hover, #vol-down:hover {
+    background-color: darkred;
+  }
+</style>
+		
+		
+	<!-- кнопка для поверненя на попередню сторінку -->
+	<button class="back-button" onclick="history.back()">⬅ back</button>
+	<!-- код на css для стилізаці кнопки поверненя на попередню сторінку -->
+	<style>
+    .back-button {
+      position: fixed;       /* фіксує кнопку на екрані */
+      top: 10px;             /* відступ від верхнього краю */
+      left: 10px;            /* відступ від лівого краю */
+      background-color: rgba(255, 0, 0, 0.5); /* напівпрозорий червоний */
+      color: white;          /* колір тексту */
+      border: none;          /* без рамки */
+      padding: 10px 20px;    /* внутрішні відступи */
+      cursor: pointer;       /* курсор у вигляді руки */
+      border-radius: 5px;    /* закруглені кути */
+      font-size: 16px;       /* розмір тексту */
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
+    }
+  </style>
+  
+  
+		<!-- кнопка на аватарки -->
+		<button class="avatars-button" onclick="openPriceListAvatar()">avatars</button>
+		<style>
+    .avatars-button {
+      position: fixed;       /* фіксує кнопку на екрані */
+      top: 300px;             /* відступ від верхнього краю */
+      left: 25px;            /* відступ від лівого краю */
+      background-color: rgba(255, 0, 0, 0.5); /* напівпрозорий червоний */
+      color: white;          /* колір тексту */
+      border: none;          /* без рамки */
+      padding: 10px 20px;    /* внутрішні відступи */
+      cursor: pointer;       /* курсор у вигляді руки */
+      border-radius: 5px;    /* закруглені кути */
+      font-size: 40px;       /* розмір тексту */
+      transition: background-color 0.3s ease;
+    }
+
+    .avatars-button:hover {
+      background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
+    }
+  </style>
+		<!-- код на javascript щоб відкривати сайт
+			на пк (клас інформатики) або зразу на флешці:
+			в класі- зверху 0 знизу 1
+			в дома- зверху 1 знизу 0-->
+		<script>
+    function openPriceListAvatar() {
+      const paths = [
+        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/avatarcki.html",
+        "file:///D:/інформатика/сайт/avatarcki.html"
+
+      ];
+		window.location.href = paths[1];
+		setTimeout(() => {
+    window.location.href = paths[0];
+  }, 2000);
+}
+  </script>
+  
+  
+		<!-- кнопка на банери -->
+		<button class="banner-button" onclick="openPriceListbanner()">banner</button>
+		<style>
+    .banner-button {
+      position: fixed;       /* фіксує кнопку на екрані */
+      top: 300px;             /* відступ від верхнього краю */
+      left: 225px;            /* відступ від лівого краю */
+      background-color: rgba(255, 0, 0, 0.5); /* напівпрозорий червоний */
+      color: white;          /* колір тексту */
+      border: none;          /* без рамки */
+      padding: 10px 20px;    /* внутрішні відступи */
+      cursor: pointer;       /* курсор у вигляді руки */
+      border-radius: 5px;    /* закруглені кути */
+      font-size: 40px;       /* розмір тексту */
+      transition: background-color 0.3s ease;
+    }
+
+    .banner-button:hover {
+      background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
+    }
+  </style>
+		<!-- код на javascript щоб відкривати сайт
+			на пк (клас інформатики) або зразу на флешці:
+			в класі- зверху 0 знизу 1
+			в дома- зверху 1 знизу 0-->
+		<script>
+    function openPriceListbanner() {
+      const paths = [
+        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/baneri.html",
+        "file:///D:/інформатика/сайт/baneri.html"
+
+      ];
+		window.location.href = paths[1];
+		setTimeout(() => {
+    window.location.href = paths[0];
+  }, 2000);
+}
+  </script>
+  
+  
+  <!-- кнопка на едіти -->
+		<button class="edit-button" onclick="openPriceListedit()">edit</button>
+  		<style>
+    .edit-button {
+      position: fixed;       /* фіксує кнопку на екрані */
+      top: 300px;             /* відступ від верхнього краю */
+      left: 425px;            /* відступ від лівого краю */
+      background-color: rgba(255, 0, 0, 0.5); /* напівпрозорий червоний */
+      color: white;          /* колір тексту */
+      border: none;          /* без рамки */
+      padding: 10px 20px;    /* внутрішні відступи */
+      cursor: pointer;       /* курсор у вигляді руки */
+      border-radius: 5px;    /* закруглені кути */
+      font-size: 40px;       /* розмір тексту */
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-button:hover {
+      background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
+    }
+  </style>
+		<script>
+    function openPriceListedit() {
+      const paths = [
+        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/edit.html",
+        "file:///D:/інформатика/сайт/edit.html"
+
+      ];
+		window.location.href = paths[1];
+		setTimeout(() => {
+    window.location.href = paths[0];
+  }, 2000);
+}
+  </script>
+  </body>
+</html>

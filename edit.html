@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<title> BANERS NEON SHOPE</title>
+		<body>
+	<title> EDIT NEON SHOPE</title>
 		<meta charset="UTF-8">
-		
-		
 		<!-- код щоб вставити фото на фон -->
 	<style>
     body {
@@ -91,8 +90,33 @@
 
   setInterval(createParticle, 400);
 </script>
-		
-		
+
+
+<!-- опис сторінки -->
+<div class="note-box">
+	<h3>On this page, you can familiarize yourself with</h3>
+	<h3>examples of work and their approximate price.</h3>
+</div>
+<style>
+    .note-box {
+	width: 450px;
+	height: 80px;
+      background-color: rgba(255, 0, 0, 0.1); /* прозоро червоний колір */
+
+      padding: 20px;
+      border-radius: 10px; /* заокругленя кутів */
+      display: block;		/* розташовує по центру осі x(горизонталі) */
+	  margin: 0 auto;
+      text-align: center;
+    }
+
+    .note-box h3 {
+      color: white;
+      margin: 10px 0;
+    }
+  </style>
+
+
 	<!-- кнопка для поверненя на попередню сторінку -->
 	<button class="back-button" onclick="history.back()">⬅ back</button>
 	<!-- код на css для стилізаці кнопки поверненя на попередню сторінку -->
@@ -163,115 +187,81 @@
     document.getElementById("request-form").style.display = "none";
   }
 </script>
-
-
-<!-- опис сторінки -->
-<div class="note-box">
-	<h3>On this page, you can familiarize yourself with</h3>
-	<h3>examples of work and their approximate price.</h3>
-</div>
-<style>
-    .note-box {
-	width: 450px;
-	height: 80px;
-      background-color: rgba(255, 0, 0, 0.1); /* прозоро червоний колір */
-
-      padding: 20px;
-      border-radius: 10px; /* заокругленя кутів */
-      display: block;		/* розташовує по центру осі x(горизонталі) */
-	  margin: 0 auto;
-      text-align: center;
-    }
-
-    .note-box h3 {
-      color: white;
-      margin: 10px 0;
-    }
-  </style>
-  
-  <!-- банери та розцінки на них -->
-<style>
-/* ====== ГОЛОВНИЙ ВЕРТИКАЛЬНИЙ БЛОК ====== */
+		</body>
+		
+		
+		
+		<style>
+/* Твій існуючий CSS залишається таким самим, 
+   але переконайся, що .modal має display: none за замовчуванням */
 .wrapper {
     display: flex;
     flex-direction: column;
     gap: 150px;
 }
 
-/* ====== БЛОК ФОТО ====== */
-.photo-container {
+.video-container {
     position: relative;
     margin-left: 150px;
     margin-top: 100px;
 }
 
-/* ====== ЗОБРАЖЕННЯ З НЕОНОВОЮ РАМКОЮ ====== */
-.photo-container img {
+.video-container video {
     display: block;
     width: 50%;
     height: auto;
     border-radius: 15px;
     cursor: pointer;
-
-    /* неонова рамка */
     box-shadow: 0 0 40px rgba(255, 40, 40, 0.9);
-
-    /* анімована рамка */
     border: 10px solid transparent;
-	background: linear-gradient(45deg, #8B0000, #B22222, #DC143C, #CD5C5C,#FFB6C1, pink, #800000,#FF0000,#FF6347,#FF0000, #800000, pink,#FFB6C1, #CD5C5C, #DC143C, #B22222, #8B0000);
-	background-size: 50% 50%;
-	animation: borderGlow 5s ease infinite;
+    background: linear-gradient(45deg, #8B0000, #B22222, #DC143C, #CD5C5C,#FFB6C1, pink, #800000,#FF0000,#FF6347,#FF0000, #800000, pink,#FFB6C1, #CD5C5C, #DC143C, #B22222, #8B0000);
+    background-size: 500% 500%; /* Трохи збільшив для плавності */
+    animation: borderGlow 5s ease infinite;
     transition: 0.25s ease;
 }
 
-/* Анімація рамки */
 @keyframes borderGlow {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-.photo-container img:hover {
+.video-container video:hover {
     transform: scale(1.03);
 }
 
-/* ====== ТЕКСТ ЦІНИ ====== */
 .text-block {
     position: absolute;
     top: 50%;
     left: 55%;
     transform: translateY(-50%);
-
     color: white;
     background-color: rgba(255, 0, 0, 0.55);
     padding: 20px;
     border-radius: 10px;
     font-size: 100px;
+    pointer-events: none; /* Щоб клік проходив крізь текст на відео */
 }
 
-/* ====== МОДАЛЬНЕ ВІКНО ====== */
 .modal {
-    display: none;
+    display: none; /* Сховано за замовчуванням */
     position: fixed;
     z-index: 9999;
     left: 0;
     top: 0;
-
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-
+    background-color: rgba(0, 0, 0, 0.9);
     justify-content: center;
     align-items: center;
 }
 
-.modal img {
+.modal video {
     max-width: 90%;
     max-height: 90%;
     border-radius: 15px;
 }
 
-/* Хрестик */
 .modal-close {
     position: absolute;
     top: 30px;
@@ -281,35 +271,97 @@
     cursor: pointer;
 }
 </style>
-<!-- ====== ГАЛЕРЕЯ ====== -->
+
 <div class="wrapper">
-
-    <div class="photo-container">
-        <img src="avabanedit\банери\baner3.jpg" onclick="openModal(this.src)">
-        <div class="text-block">3$</div>
+    <div class="video-container">
+        <video src="avabanedit/edits/edit15.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">15$</div>
     </div>
 
-    <div class="photo-container">
-        <img src="avabanedit\банери\baner6.jpg" onclick="openModal(this.src)">
-        <div class="text-block">6$</div>
+    <div class="video-container">
+        <video src="avabanedit/edits/edit15(2).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">15$</div>
     </div>
 
+    <div class="video-container">
+        <video src="avabanedit/edits/edit15(3).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">15$</div>
+    </div>
+	 <div class="video-container">
+        <video src="avabanedit/edits/edit10.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">10$</div>
+    </div>
+
+    <div class="video-container">
+        <video src="avabanedit/edits/edit10(2).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">10$</div>
+    </div>
+
+    <div class="video-container">
+        <video src="avabanedit/edits/edit11.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">11$</div>
+    </div>
+	
+	<div class="video-container">
+        <video src="avabanedit/edits/edit12.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">12$</div>
+    </div>
+
+    <div class="video-container">
+        <video src="avabanedit/edits/edit13.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">13$</div>
+    </div>
+
+    <div class="video-container">
+        <video src="avabanedit/edits/edit14.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">14$</div>
+    </div>
+	 <div class="video-container">
+        <video src="avabanedit/edits/edit15(4).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">15$</div>
+    </div>
+
+    <div class="video-container">
+        <video src="avabanedit/edits/edit22.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">22$</div>
+    </div>
+
+    <div class="video-container">
+        <video src="avabanedit/edits/edit25.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <div class="text-block">25$</div>
+    </div>
 </div>
 
-<!-- ====== МОДАЛКА ====== -->
 <div id="modal" class="modal">
     <span class="modal-close" onclick="closeModal()">&times;</span>
-    <img id="modal-img" src="">
+    <video id="modal-video" src="" controls></video>
 </div>
-<script>
-function openModal(src) {
-    document.getElementById("modal-img").src = src;
-    document.getElementById("modal").style.display = "flex";
-}
 
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
-}
+<script>
+    const modal = document.getElementById('modal');
+    const modalVideo = document.getElementById('modal-video');
+
+    // Функція відкриття
+    function openModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modalVideo.muted = false; // У модалці звук має бути
+        modal.style.display = "flex";
+        modalVideo.play();
+    }
+
+    // Функція закриття
+    function closeModal() {
+        modal.style.display = "none";
+        modalVideo.pause();
+        modalVideo.src = ""; // Очищуємо шлях, щоб відео не грало у фоні
+    }
+
+    // Закриття при кліку на фон (поза відео)
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
 </script>
 	</head>
 </html>

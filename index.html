@@ -3,6 +3,8 @@
 	<head>
 		<title> NEON SHOPE</title>
 		<meta charset="UTF-8">
+		
+		
 		<!-- код javascript (для нормального відео на фоні) -->
 		<style>
     .video-background {
@@ -29,6 +31,8 @@
       margin-top: 20%;
     }
 		</style>
+		
+		
 		<!-- код на css щоб зробити фон для опису сторінки (нижче) -->
 		<style>
     .note-box {
@@ -48,36 +52,50 @@
       margin: 10px 0;
     }
   </style>
-<!-- Кнопка вмк/увк музики -->
+  
+  
+<!-- Кнопка вмик/вимк музики -->
 <button id="music-btn" onclick="toggleMusic()">▶ Play Music</button>
+
+<!-- Кнопки регулювання гучності -->
+<button id="vol-up" onclick="changeVolume(0.1)">+</button>
+<button id="vol-down" onclick="changeVolume(-0.1)">−</button>
 
 <!-- Аудіо приховане -->
 <audio id="bg-music" loop>
   <source src="музика на фон.mp3" type="audio/mpeg">
 </audio>
-<!-- код на javascript щоб міняти текст кнопки -->
+
 <script>
   function toggleMusic() {
     const audio = document.getElementById('bg-music');
     const btn = document.getElementById('music-btn');
     if (audio.paused) {
       audio.play();
-      btn.textContent = "⏸ Pause Music"; // змінюємо текст кнопки
+      btn.textContent = "⏸ Pause Music";
     } else {
       audio.pause();
       btn.textContent = "▶ Play Music";
     }
   }
+
+  function changeVolume(delta) {
+    const audio = document.getElementById('bg-music');
+    let newVolume = audio.volume + delta;
+    if (newVolume > 1) newVolume = 1;   // максимум 100%
+    if (newVolume < 0) newVolume = 0;   // мінімум 0%
+    audio.volume = newVolume;
+  }
 </script>
-<!--  код на css розташовує кнопку музики -->
+
 <style>
-  /* стилізація кнопки зліва */
+  /* стилізація кнопки музики */
   #music-btn {
-    position: fixed;   /* фіксуємо на екрані */
-    top: 20px;         /* відступ зверху */
-    left: 20px;        /* тепер зліва */
+    position: fixed;
+    top: 12px;
+    left: 20px;
     padding: 10px 15px;
-    background-color: crimson;
+    background-color: crimson; /* кнопка вкл/вимк */
     color: white;
     border: none;
     border-radius: 5px;
@@ -87,7 +105,33 @@
   #music-btn:hover {
     background-color: darkred;
   }
+
+  /* стилізація кнопок гучності */
+  #vol-up, #vol-down {
+    position: fixed;
+    top: 12px;
+    padding: 10px 15px;
+    background-color: crimson; /* колір кнопко +- */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+
+  #vol-up {
+    left: 130px; /* розташування (збільшити гучність) */
+  }
+
+  #vol-down {
+    left: 170px; /* розташування (зменшити гучність) */
+  }
+
+  #vol-up:hover, #vol-down:hover {
+    background-color: darkred;
+  }
 </style>
+
 	</head>
 	<body>
 		
@@ -99,25 +143,170 @@
 		</div>
 		<header>
 			<!-- заголовок та опис сторінки -->
-			<h1 style='color: blue' align='center'>PRICE LIST</h1>
-			<h2 style='color: green' align='center'>INFORMATION</h2>
+			<h1 style='color: #B22222' align='center'>PRICE LIST</h1>
+			<h2 style='color: #B22222' align='center'>INFORMATION</h2>
 				<div class="note-box" align="center">
 			<h3>NEON SHOPE is a professional digital design space for creative projects.</h3>
 			<h3>We specialize in creating edits, avatars, previews, banners and intros combining style, modern trends and quality of execution.</h3>
 				</div>
 
 			<!-- кнопка на прйс лист -->
-			<button onclick="openPriceList()">check price list</button>
-			<!-- просто посилання на іншу сторінку-->
-		<script>
-  function openPriceList() {
-    window.location.href = "прайс лист.html"; 
+			<button
+			class="pricelist-button"
+			onclick="openPriceList()">check price list</button>
+			<!-- вигляд кнопки на прайс лист -->
+			<style>
+    .pricelist-button {
+      position: fixed;       /* фіксує кнопку на екрані */
+      top: 300px;             /* відступ від верхнього краю */
+      left: 25px;            /* відступ від лівого краю */
+      background-color: rgba(255, 0, 0, 0.5); /* напівпрозорий червоний */
+      color: white;          /* колір тексту */
+      border: none;          /* без рамки */
+      padding: 10px 20px;    /* внутрішні відступи */
+      cursor: pointer;       /* курсор у вигляді руки */
+      border-radius: 5px;    /* закруглені кути */
+      font-size: 16px;       /* розмір тексту */
+      transition: background-color 0.3s ease;
+    }
+
+    .pricelist-button:hover {
+      background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
+    }
+  </style>
+			<!-- код на javascript щоб відкривати сайт
+			на пк (клас інформатики) або зразу на флешці:
+			в класі- зверху 0 знизу 1
+			в дома- зверху 1 знизу 0-->
+			<script>
+    function openPriceList() {
+      const paths = [
+        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/прайс лист.html",
+        "file:///D:/інформатика/сайт/прайс лист.html"
+
+      ];
+		window.location.href = paths[1];
+		setTimeout(() => {
+    window.location.href = paths[0];
+  }, 2000);
+}
+  </script>
+  
+  
+  <!-- частинки які вилітають з курсора -->
+<script>
+  const particles = [];
+  const spawnInterval = 300; // 0.3 сек
+  const particlesPerSpawn = 5;
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let spawnTimer = null;
+
+  if (!isMobile) {
+    document.addEventListener("mousemove", e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function spawnParticles() {
+      for (let i = 0; i < particlesPerSpawn; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        document.body.appendChild(p);
+
+        // випадковий напрямок
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = 3 + Math.random() * 2;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+
+        particles.push({
+          el: p,
+          x: mouseX,
+          y: mouseY,
+          vx: vx,
+          vy: vy,
+          opacity: 0.6,
+          life: 120
+        });
+      }
+    }
+
+    function animate() {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // поступове уповільнення
+        p.vx *= 0.97;
+        p.vy *= 0.97;
+
+        // зменшення життя та прозорості
+        p.life--;
+        p.opacity = p.life / 120 * 0.6;
+
+        p.el.style.left = p.x + "px";
+        p.el.style.top = p.y + "px";
+        p.el.style.opacity = p.opacity;
+
+        if (
+          p.life <= 0 ||
+          p.x < 0 || p.x > window.innerWidth ||
+          p.y < 0 || p.y > window.innerHeight
+        ) {
+          p.el.remove();
+          particles.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // запуск анімації
+    animate();
+
+    // запуск таймера створення частинок
+    function startSpawning() {
+      if (!spawnTimer) {
+        spawnTimer = setInterval(spawnParticles, spawnInterval);
+      }
+    }
+
+    function stopSpawning() {
+      if (spawnTimer) {
+        clearInterval(spawnTimer);
+        spawnTimer = null;
+      }
+    }
+
+    // відслідковування видимості сторінки
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopSpawning();
+      } else {
+        startSpawning();
+      }
+    });
+
+    // старт при завантаженні
+    startSpawning();
   }
 </script>
 
-
+<style>
+  .particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background-color: rgba(255, 0, 0, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+</style>
 		</header>
 	</body>
-
 </html>
-

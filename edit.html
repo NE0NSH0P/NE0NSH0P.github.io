@@ -192,8 +192,8 @@
 		
 		
 		<style>
-/* Твій існуючий CSS залишається таким самим, 
-   але переконайся, що .modal має display: none за замовчуванням */
+/* CSS для прев'ю. Замість <video> тепер YouTube <iframe>,
+   тому клік ловить окремий прозорий .video-overlay поверх нього */
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -204,14 +204,15 @@
     position: relative;
     margin-left: 150px;
     margin-top: 100px;
+    width: 50%; /* ширину задає контейнер, бо в iframe немає "height: auto" по контенту */
 }
 
-.video-container video {
+.video-container iframe.yt-preview {
     display: block;
-    width: 50%;
-    height: auto;
+    width: 100%;
+    aspect-ratio: 9 / 16; /* під вертикальні едіти; онови значення якщо в тебе горизонтальні */
     border-radius: 15px;
-    cursor: pointer;
+    pointer-events: none; /* клік проходить крізь iframe до .video-overlay */
     box-shadow: 0 0 40px rgba(255, 40, 40, 0.9);
     border: 10px solid transparent;
     background: linear-gradient(45deg, #8B0000, #B22222, #DC143C, #CD5C5C,#FFB6C1, pink, #800000,#FF0000,#FF6347,#FF0000, #800000, pink,#FFB6C1, #CD5C5C, #DC143C, #B22222, #8B0000);
@@ -226,8 +227,18 @@
     100% { background-position: 0% 50%; }
 }
 
-.video-container video:hover {
+.video-container:hover iframe.yt-preview {
     transform: scale(1.03);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .text-block {
@@ -241,6 +252,7 @@
     border-radius: 10px;
     font-size: 100px;
     pointer-events: none; /* Щоб клік проходив крізь текст на відео */
+    z-index: 3;
 }
 
 .modal {
@@ -256,10 +268,12 @@
     align-items: center;
 }
 
-.modal video {
-    max-width: 90%;
-    max-height: 90%;
+.modal iframe {
+    width: min(90vw, 500px);
+    aspect-ratio: 9 / 16;
+    max-height: 90vh;
     border-radius: 15px;
+    border: none;
 }
 
 .modal-close {
@@ -269,91 +283,115 @@
     font-size: 50px;
     color: white;
     cursor: pointer;
+    z-index: 10000;
 }
 </style>
 
 <div class="wrapper">
+    <!-- edit15 -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit15.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/6s6qQhlAKdY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=6s6qQhlAKdY&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('6s6qQhlAKdY')"></div>
         <div class="text-block">15$</div>
     </div>
 
+    <!-- edit15(2) -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit15(2).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/93vBYIAo77A?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=93vBYIAo77A&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('93vBYIAo77A')"></div>
         <div class="text-block">15$</div>
     </div>
 
+    <!-- edit15(3) -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit15(3).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/vdRqkeCl4mc?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=vdRqkeCl4mc&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('vdRqkeCl4mc')"></div>
         <div class="text-block">15$</div>
     </div>
-	 <div class="video-container">
-        <video src="avabanedit/edits/edit10.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+
+    <!-- edit10 -->
+    <div class="video-container">
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/qu3VLey--_Q?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=qu3VLey--_Q&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('qu3VLey--_Q')"></div>
         <div class="text-block">10$</div>
     </div>
 
+    <!-- edit10(2) -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit10(2).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/_qcHxSbcOuA?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=_qcHxSbcOuA&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('_qcHxSbcOuA')"></div>
         <div class="text-block">10$</div>
     </div>
 
+    <!-- edit11 -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit11.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/WOw9RZWBT4Y?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=WOw9RZWBT4Y&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('WOw9RZWBT4Y')"></div>
         <div class="text-block">11$</div>
     </div>
-	
-	<div class="video-container">
-        <video src="avabanedit/edits/edit12.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+
+    <!-- edit12 -->
+    <div class="video-container">
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/IsFAN-Qo3f0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=IsFAN-Qo3f0&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('IsFAN-Qo3f0')"></div>
         <div class="text-block">12$</div>
     </div>
 
+    <!-- edit13 -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit13.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/knpPoWSSe7g?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=knpPoWSSe7g&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('knpPoWSSe7g')"></div>
         <div class="text-block">13$</div>
     </div>
 
+    <!-- edit14 -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit14.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/MLeAMwooEhA?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=MLeAMwooEhA&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('MLeAMwooEhA')"></div>
         <div class="text-block">14$</div>
     </div>
-	 <div class="video-container">
-        <video src="avabanedit/edits/edit15(4).mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+
+    <!-- edit15(4) -->
+    <div class="video-container">
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/7uF_mGDqqKM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=7uF_mGDqqKM&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('7uF_mGDqqKM')"></div>
         <div class="text-block">15$</div>
     </div>
 
+    <!-- edit22 -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit22.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/sRbG2GYHTJg?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=sRbG2GYHTJg&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('sRbG2GYHTJg')"></div>
         <div class="text-block">22$</div>
     </div>
 
+    <!-- edit25 -->
     <div class="video-container">
-        <video src="avabanedit/edits/edit25.mp4" autoplay muted loop playsinline onclick="openModal(this.src)"></video>
+        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/DeLxBZ99MLQ?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DeLxBZ99MLQ&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
+        <div class="video-overlay" onclick="openModal('DeLxBZ99MLQ')"></div>
         <div class="text-block">25$</div>
     </div>
 </div>
 
 <div id="modal" class="modal">
     <span class="modal-close" onclick="closeModal()">&times;</span>
-    <video id="modal-video" src="" controls></video>
+    <iframe id="modal-video" src="" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
 </div>
 
 <script>
     const modal = document.getElementById('modal');
     const modalVideo = document.getElementById('modal-video');
 
-    // Функція відкриття
-    function openModal(videoSrc) {
-        modalVideo.src = videoSrc;
-        modalVideo.muted = false; // У модалці звук має бути
+    // Функція відкриття - тепер приймає YouTube videoId замість шляху до файлу
+    function openModal(videoId) {
+        modalVideo.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0&modestbranding=1";
         modal.style.display = "flex";
-        modalVideo.play();
     }
 
     // Функція закриття
     function closeModal() {
         modal.style.display = "none";
-        modalVideo.pause();
-        modalVideo.src = ""; // Очищуємо шлях, щоб відео не грало у фоні
+        modalVideo.src = ""; // Очищуємо src, щоб відео зупинилось і не грало у фоні
     }
 
     // Закриття при кліку на фон (поза відео)

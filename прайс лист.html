@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		  </head>
 	<body>
+	<div id="video-progress-bar"></div>
 	<header>
 		<div class="note-box" align="center">
 			<h1 align='center'>PRICE </h1>
@@ -26,8 +27,19 @@
     font-size: 32px;                        /* розмір шрифту */
   }
 </style>
-
-
+<!-- прогрес бар загрузки фона на сайті  -->
+<style>#video-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;                 /* Ледь помітна тонка лінія */
+  width: 0%;                   /* Початкова ширина */
+  background-color: crimson;   /* Червоний колір під стиль сайту */
+  box-shadow: 0 0 8px red;     /* Легке червоне світіння */
+  z-index: 9999;               /* Показувати поверх усіх елементів */
+  transition: width 0.2s ease, opacity 0.5s ease;
+}
+</style>
 <!-- частинки які летять до курсора  -->
  <style>
     body {
@@ -378,5 +390,30 @@
     .edit-button    { top: 360px !important; }
   }
 </style>
+<!-- скрипт відстеження для прогрес бару відео для фона -->
+<script>
+  const bgVideo = document.querySelector('.video-background video');
+  const progressBar = document.getElementById('video-progress-bar');
+
+  if (bgVideo && progressBar) {
+    // Відстежуємо завантаження буфера відео
+    bgVideo.addEventListener('progress', () => {
+      if (bgVideo.duration > 0 && bgVideo.buffered.length > 0) {
+        const bufferedEnd = bgVideo.buffered.end(bgVideo.buffered.length - 1);
+        const percent = (bufferedEnd / bgVideo.duration) * 100;
+        progressBar.style.width = percent + '%';
+      }
+    });
+
+    // Ховаємо смужку, коли відео повністю завантажилося і почало грати
+    bgVideo.addEventListener('canplaythrough', () => {
+      progressBar.style.width = '100%';
+      setTimeout(() => {
+        progressBar.style.opacity = '0';
+      }, 300);
+    });
+  }
+</script>
+
   </body>
 </html>

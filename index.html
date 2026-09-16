@@ -3,7 +3,26 @@
 	<head>
 		<title> NEON SHOPE</title>
 		<meta charset="UTF-8">
-		
+		<!-- код css для збільшення кнопок на телефоні -->
+		<style>
+  /* Стандартні розміри для ПК */
+  .pricelist-button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  /* Автоматичні розміри для телефонів */
+  @media (max-width: 768px) {
+    .pricelist-button {
+      font-size: 22px;        /* Збільшений шрифт для пальця */
+      padding: 18px 30px;     /* Збільшена сама кнопка */
+      top: 250px;             /* Позиція під мобільний екран */
+      left: 50%;              /* Центруємо кнопку */
+      transform: translateX(-50%); /* Точне центрування */
+      width: 80%;             /* Ширина на більшу частину екрана */
+    }
+  }
+</style>
 		
 		<!-- код javascript (для нормального відео на фоні) -->
 		<style>
@@ -174,23 +193,12 @@
       background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
     }
   </style>
-			<!-- код на javascript щоб відкривати сайт
-			на пк (клас інформатики) або зразу на флешці:
-			в класі- зверху 0 знизу 1
-			в дома- зверху 1 знизу 0-->
+			<!-- код на javascript щоб відкривати прайс лист	-->
 			<script>
-    function openPriceList() {
-      const paths = [
-        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/прайс лист.html",
-        "file:///D:/інформатика/сайт/прайс лист.html"
-
-      ];
-		window.location.href = paths[1];
-		setTimeout(() => {
-    window.location.href = paths[0];
-  }, 2000);
-}
-  </script>
+  function openPriceList() {
+    window.location.href = "./прайс лист.html";
+  }
+</script>
   
   
   <!-- частинки які вилітають з курсора -->

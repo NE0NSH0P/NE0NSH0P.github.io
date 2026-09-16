@@ -294,23 +294,12 @@
       background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
     }
   </style>
-		<!-- код на javascript щоб відкривати сайт
-			на пк (клас інформатики) або зразу на флешці:
-			в класі- зверху 0 знизу 1
-			в дома- зверху 1 знизу 0-->
-		<script>
-    function openPriceListAvatar() {
-      const paths = [
-        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/avatarcki.html",
-        "file:///D:/інформатика/сайт/avatarcki.html"
-
-      ];
-		window.location.href = paths[1];
-		setTimeout(() => {
-    window.location.href = paths[0];
-  }, 2000);
-}
-  </script>
+		<!-- код на javascript щоб відкривати openPriceListAvatar-->
+<script>
+  function openPriceListAvatar() {
+    window.location.href = "./avatarcki.html";
+  }
+</script>
   
   
 		<!-- кнопка на банери -->
@@ -334,23 +323,12 @@
       background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
     }
   </style>
-		<!-- код на javascript щоб відкривати сайт
-			на пк (клас інформатики) або зразу на флешці:
-			в класі- зверху 0 знизу 1
-			в дома- зверху 1 знизу 0-->
+		<!-- код на javascript щоб відкривати openPriceListbanner-->
 		<script>
-    function openPriceListbanner() {
-      const paths = [
-        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/baneri.html",
-        "file:///D:/інформатика/сайт/baneri.html"
-
-      ];
-		window.location.href = paths[1];
-		setTimeout(() => {
-    window.location.href = paths[0];
-  }, 2000);
-}
-  </script>
+  function openPriceListbanner() {
+    window.location.href = "./baneri.html";
+  }
+</script>
   
   
   <!-- кнопка на едіти -->
@@ -374,18 +352,31 @@
       background-color: rgba(255, 0, 0, 0.8); /* менш прозора при наведенні */
     }
   </style>
+  <!-- код на javascript щоб відкривати openPriceListedit-->
 		<script>
-    function openPriceListedit() {
-      const paths = [
-        "file:///C:/Users/PUPIL/Documents/10а/Заболотний Назарій/edit.html",
-        "file:///D:/інформатика/сайт/edit.html"
+  function openPriceListedit() {
+    window.location.href = "./edit.html";
+  }
+</script>
+<!-- код css для збільшення кнопок на телефоні -->
+<style>
+  @media (max-width: 768px) {
+    /* Робимо всі три кнопки великими та вишиковуємо в один стовпчик */
+    .avatars-button, .banner-button, .edit-button {
+      position: fixed;
+      left: 50% !important;           /* Центруємо горизонтально */
+      transform: translateX(-50%);    /* Точне центрування */
+      width: 80%;                     /* Кнопка на 80% ширини екрана */
+      font-size: 28px !important;     /* Зручний великий шрифт */
+      padding: 15px 0 !important;
+      text-align: center;
+    }
 
-      ];
-		window.location.href = paths[1];
-		setTimeout(() => {
-    window.location.href = paths[0];
-  }, 2000);
-}
-  </script>
+    /* Розставляємо їх по висоті, щоб не налізали */
+    .avatars-button { top: 200px !important; }
+    .banner-button  { top: 280px !important; }
+    .edit-button    { top: 360px !important; }
+  }
+</style>
   </body>
 </html>

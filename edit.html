@@ -192,8 +192,9 @@
 		
 		
 		<style>
-/* CSS для прев'ю. Замість <video> тепер YouTube <iframe>,
-   тому клік ловить окремий прозорий .video-overlay поверх нього */
+/* CSS для прев'ю. Список самих едітів (id відео + ціна) тепер живе
+   в масиві EDITS у скрипті нижче - щоб замінити/додати відео, туди й треба
+   заглядати, тут у CSS міняти нічого не потрібно. */
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -204,14 +205,18 @@
     position: relative;
     margin-left: 150px;
     margin-top: 100px;
-    width: 50%; /* ширину задає контейнер, бо в iframe немає "height: auto" по контенту */
+    --ar: 9 / 16; /* запасні пропорції, поки не підвантажились реальні (див. скрипт) */
+}
+
+.video-container iframe.yt-preview,
+.video-container .video-overlay {
+    display: block;
+    width: 50%;
+    aspect-ratio: var(--ar); /* реальні пропорції відео - рамка точно по краях, без чорних смуг */
+    border-radius: 15px;
 }
 
 .video-container iframe.yt-preview {
-    display: block;
-    width: 100%;
-    aspect-ratio: 9 / 16; /* під вертикальні едіти; онови значення якщо в тебе горизонтальні */
-    border-radius: 15px;
     pointer-events: none; /* клік проходить крізь iframe до .video-overlay */
     box-shadow: 0 0 40px rgba(255, 40, 40, 0.9);
     border: 10px solid transparent;
@@ -231,12 +236,10 @@
     transform: scale(1.03);
 }
 
-.video-overlay {
+.video-container .video-overlay {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    aspect-ratio: 9 / 16;
     cursor: pointer;
     z-index: 2;
 }
@@ -253,6 +256,7 @@
     font-size: 100px;
     pointer-events: none; /* Щоб клік проходив крізь текст на відео */
     z-index: 3;
+    white-space: nowrap;
 }
 
 .modal {
@@ -266,11 +270,12 @@
     background-color: rgba(0, 0, 0, 0.9);
     justify-content: center;
     align-items: center;
+    --modal-ar: 9 / 16;
 }
 
 .modal iframe {
     width: min(90vw, 500px);
-    aspect-ratio: 9 / 16;
+    aspect-ratio: var(--modal-ar);
     max-height: 90vh;
     border-radius: 15px;
     border: none;
@@ -287,91 +292,7 @@
 }
 </style>
 
-<div class="wrapper">
-    <!-- edit15 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/6s6qQhlAKdY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=6s6qQhlAKdY&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('6s6qQhlAKdY')"></div>
-        <div class="text-block">15$</div>
-    </div>
-
-    <!-- edit15(2) -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/93vBYIAo77A?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=93vBYIAo77A&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('93vBYIAo77A')"></div>
-        <div class="text-block">15$</div>
-    </div>
-
-    <!-- edit15(3) -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/vdRqkeCl4mc?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=vdRqkeCl4mc&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('vdRqkeCl4mc')"></div>
-        <div class="text-block">15$</div>
-    </div>
-
-    <!-- edit10 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/qu3VLey--_Q?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=qu3VLey--_Q&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('qu3VLey--_Q')"></div>
-        <div class="text-block">10$</div>
-    </div>
-
-    <!-- edit10(2) -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/_qcHxSbcOuA?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=_qcHxSbcOuA&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('_qcHxSbcOuA')"></div>
-        <div class="text-block">10$</div>
-    </div>
-
-    <!-- edit11 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/WOw9RZWBT4Y?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=WOw9RZWBT4Y&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('WOw9RZWBT4Y')"></div>
-        <div class="text-block">11$</div>
-    </div>
-
-    <!-- edit12 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/IsFAN-Qo3f0?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=IsFAN-Qo3f0&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('IsFAN-Qo3f0')"></div>
-        <div class="text-block">12$</div>
-    </div>
-
-    <!-- edit13 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/knpPoWSSe7g?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=knpPoWSSe7g&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('knpPoWSSe7g')"></div>
-        <div class="text-block">13$</div>
-    </div>
-
-    <!-- edit14 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/MLeAMwooEhA?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=MLeAMwooEhA&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('MLeAMwooEhA')"></div>
-        <div class="text-block">14$</div>
-    </div>
-
-    <!-- edit15(4) -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/7uF_mGDqqKM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=7uF_mGDqqKM&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('7uF_mGDqqKM')"></div>
-        <div class="text-block">15$</div>
-    </div>
-
-    <!-- edit22 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/sRbG2GYHTJg?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=sRbG2GYHTJg&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('sRbG2GYHTJg')"></div>
-        <div class="text-block">22$</div>
-    </div>
-
-    <!-- edit25 -->
-    <div class="video-container">
-        <iframe class="yt-preview" frameborder="0" allow="autoplay; encrypted-media" src="https://www.youtube.com/embed/DeLxBZ99MLQ?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DeLxBZ99MLQ&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1"></iframe>
-        <div class="video-overlay" onclick="openModal('DeLxBZ99MLQ')"></div>
-        <div class="text-block">25$</div>
-    </div>
-</div>
+<div class="wrapper" id="wrapper"></div>
 
 <div id="modal" class="modal">
     <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -379,19 +300,73 @@
 </div>
 
 <script>
+    // === Список едітів ===
+    // Щоб замінити відео (наприклад, коли переллєш на інший акаунт) - просто зміни
+    // "id" на новий (це частина посилання після youtu.be/). Ціну і порядок можна
+    // міняти як завгодно, кількість рядків теж можна збільшувати/зменшувати.
+    // "ratio" - реальні пропорції відео "ширина / висота" (напр. "1080 / 1920").
+    // Якщо не вказати - береться запасне значення 9 / 16. Як дізнатись реальні пропорції:
+    // відкрий відео на YouTube -> правою кнопкою по відео -> "Stats for nerds" ->
+    // рядок "Viewport / Frames" покаже щось типу "1080x1920" - це і є ratio.
+    const EDITS = [
+        { id: '6s6qQhlAKdY', price: '15$' },   // edit15
+        { id: '93vBYIAo77A', price: '15$' },   // edit15(2)
+        { id: 'vdRqkeCl4mc', price: '15$' },   // edit15(3)
+        { id: 'qu3VLey--_Q', price: '10$' },   // edit10
+        { id: '_qcHxSbcOuA', price: '10$' },   // edit10(2)
+        { id: 'WOw9RZWBT4Y', price: '11$' },   // edit11
+        { id: 'IsFAN-Qo3f0', price: '12$' },   // edit12
+        { id: 'knpPoWSSe7g', price: '13$' },   // edit13
+        { id: 'MLeAMwooEhA', price: '14$' },   // edit14
+        { id: '7uF_mGDqqKM', price: '15$' },   // edit15(4)
+        { id: 'sRbG2GYHTJg', price: '22$' },   // edit22
+        { id: 'DeLxBZ99MLQ', price: '25$' },   // edit25
+    ];
+
+    const wrapper = document.getElementById('wrapper');
     const modal = document.getElementById('modal');
     const modalVideo = document.getElementById('modal-video');
+    const ratios = {}; // id -> ratio, щоб і модалка відкривала відео без чорних смуг
 
-    // Функція відкриття - тепер приймає YouTube videoId замість шляху до файлу
+    EDITS.forEach(edit => {
+        const ar = edit.ratio || '9 / 16';
+        ratios[edit.id] = ar;
+
+        const container = document.createElement('div');
+        container.className = 'video-container';
+        container.style.setProperty('--ar', ar);
+
+        const iframe = document.createElement('iframe');
+        iframe.className = 'yt-preview';
+        iframe.src = 'https://www.youtube.com/embed/' + edit.id +
+            '?autoplay=1&mute=1&loop=1&playlist=' + edit.id +
+            '&controls=0&modestbranding=1&rel=0&playsinline=1';
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'autoplay; encrypted-media');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'video-overlay';
+        overlay.onclick = () => openModal(edit.id);
+
+        const textBlock = document.createElement('div');
+        textBlock.className = 'text-block';
+        textBlock.textContent = edit.price;
+
+        container.append(iframe, overlay, textBlock);
+        wrapper.appendChild(container);
+    });
+
+    // Функція відкриття - приймає YouTube videoId
     function openModal(videoId) {
-        modalVideo.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0&modestbranding=1";
-        modal.style.display = "flex";
+        modalVideo.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0&modestbranding=1';
+        modal.style.setProperty('--modal-ar', ratios[videoId] || '9 / 16');
+        modal.style.display = 'flex';
     }
 
     // Функція закриття
     function closeModal() {
-        modal.style.display = "none";
-        modalVideo.src = ""; // Очищуємо src, щоб відео зупинилось і не грало у фоні
+        modal.style.display = 'none';
+        modalVideo.src = ''; // Очищуємо src, щоб відео зупинилось і не грало у фоні
     }
 
     // Закриття при кліку на фон (поза відео)
